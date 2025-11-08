@@ -5,7 +5,7 @@ services:
     ports:
       - "4000:4000"
     environment:
-      - MONGO_URI=mongodb://mongo:27017/webtracking
+      - MONGO_URI=mongodb+srv://benedictkpaduwamongo:Benedict101@webtracker.ehzynvm.mongodb.net/?appName=webtracker
     depends_on:
       - mongo
   mongo:

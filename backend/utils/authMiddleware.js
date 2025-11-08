@@ -5,7 +5,7 @@ export function adminAuth(req, res, next) {
   if (!auth || !auth.startsWith("Bearer ")) return res.status(401).json({ error: "missing token" });
   const token = auth.split(" ")[1];
   try {
-    const payload = jwt.verify(token, "dev_jwt_secret_fallback");
+    const payload = jwt.verify(token, process.env.JWT_SECRET);
     req.user = payload;
     next();
   } catch (err) {

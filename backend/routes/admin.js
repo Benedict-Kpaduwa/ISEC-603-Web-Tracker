@@ -67,12 +67,11 @@ router.post("/login", limiter, async (req, res) => {
 
     const ADMIN_USERNAME = "admin";
     const ADMIN_PLAIN_PASS = "password";
-    const ADMIN_PASS_HASH = process.env.ADMIN_PASS_HASH?.trim(); // From .env
-    const JWT_SECRET = "dev_jwt_secret_fallback";
+    const ADMIN_PASS_HASH = process.env.ADMIN_PASS_HASH?.trim();
 
     if (username === ADMIN_USERNAME && password === ADMIN_PLAIN_PASS) {
       console.log("Login SUCCESS: plain-text match");
-      const token = jwt.sign({ sub: ADMIN_USERNAME }, JWT_SECRET, { expiresIn: "4h" });
+      const token = jwt.sign({ sub: ADMIN_USERNAME }, process.env.JWT_SECRET, { expiresIn: "4h" });
       return res.json({ token });
     }
 
@@ -85,7 +84,6 @@ router.post("/login", limiter, async (req, res) => {
     //   }
     // }
 
-    console.warn("Login FAILED: invalid credentials");
     return res.status(401).json({ error: "Invalid credentials" });
 
   } catch (error) {
