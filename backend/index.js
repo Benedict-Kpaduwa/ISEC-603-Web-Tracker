@@ -29,13 +29,13 @@ mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopol
     .then(() => console.log("MongoDB connected"))
     .catch(err => { console.error("MongoDB connection error:", err); process.exit(1); });
 
-const apiPrefix = process.env.NODE_ENV === "production" ? "" : "/api";
+const apiRouter = express.Router();
+apiRouter.use("/track", trackRoutes);
+apiRouter.use("/visitors", visitorRoutes);
+apiRouter.use("/stats", statsRoutes);
+apiRouter.use("/admin", adminRoutes);
 
-app.use(`${apiPrefix}/track`, trackRoutes);
-app.use(`${apiPrefix}/visitors`, visitorRoutes);
-app.use(`${apiPrefix}/stats`, statsRoutes);
-app.use(`${apiPrefix}/admin`, adminRoutes);
-
+app.use("/api", apiRouter);
 
 app.get("/health", (_, res) => res.json({ ok: true, ts: Date.now() }));
 
