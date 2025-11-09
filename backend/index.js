@@ -10,29 +10,17 @@ import visitorRoutes from "./routes/visitor.js";
 import statsRoutes from "./routes/stats.js";
 import adminRoutes from "./routes/admin.js";
 
-const allowedOrigins = [
-    "http://localhost:4000",
-    "https://isec-603-web-tracker.vercel.app"
-];
+// const allowedOrigins = [
+//     "http://localhost:4000",
+//     "https://isec-603-web-tracker.vercel.app"
+// ];
 
 dotenv.config();
 
 const app = express();
 app.use(helmet());
-app.use(
-    cors({
-        origin: function (origin, callback) {
-            if (!origin) return callback(null, true);
-            if (allowedOrigins.includes(origin)) {
-                return callback(null, true);
-            } else {
-                console.log("Blocked by CORS:", origin);
-                return callback(new Error("Not allowed by CORS"));
-            }
-        },
-        credentials: true,
-    })
-);
+app.use(cors({ origin: "*" }));
+
 app.use(express.json({ limit: "200kb" }));
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
